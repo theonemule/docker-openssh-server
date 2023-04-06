@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 FROM ghcr.io/linuxserver/baseimage-alpine:3.17
 
 # set version label
@@ -27,6 +25,10 @@ RUN \
     openssh-sftp-server==${OPENSSH_RELEASE} && \
   echo "**** setup openssh environment ****" && \
   sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config && \
+  sed -i 's/#AllowAgentForwarding yes/AllowAgentForwarding yes/g' /etc/ssh/sshd_config && \
+  sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/g' /etc/ssh/sshd_config && \
+  sed -i 's/GatewayPorts no/GatewayPorts yes/g' /etc/ssh/sshd_config && \
+  sed -i 's/X11Forwarding no/X11Forwarding yes/g' /etc/ssh/sshd_config && \
   usermod --shell /bin/bash abc && \
   rm -rf \
     /tmp/*
